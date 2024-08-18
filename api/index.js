@@ -3,6 +3,7 @@ import pg from "pg";
 import dotenv from "dotenv";
 import userRoute from "./routes/users.js";
 import taskRoute from "./routes/tasks.js";
+import authRoute from "./routes/auths.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/users', userRoute);
 app.use('/tasks', taskRoute);
+app.use('/auths', authRoute);
 
 
 
