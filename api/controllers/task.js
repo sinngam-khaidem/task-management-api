@@ -14,38 +14,57 @@ const client = new pg.Client({
 await client.connect();
 
 // CREATE
-
+const createTask = async (request, response, next)=>{
+    const user_id = request.params.user_id;
+    const reqBody = request.body;
+    try{
+        await client.query(`INSERT INTO tasks (user_id, task_title, task_desc) VALUES (${user_id}, '${reqBody.task_title}', '${reqBody.task_desc}')`);
+        response.status(200).send(`New task successfully created for user ID: ${user_id}`);
+    }catch(err){
+        next(err);
+    }
+}
 
 // UPDATE
-const updateUserEmail = async (request, response, next)=>{
+const updateTaskTitle = async (request, response, next)=>{
+    const task_id = request.params.id;
+    const reqBody = request.body;
     try{
-        const id = request.params.id;
-        const reqBody = request.body;
-        await client.query(`UPDATE users SET email='${reqBody.email}' WHERE user_id = ${id}`);
-        response.status(200).send(`Email updated for user ID: ${id}`);
+        await client.query(`UPDATE tasks SET task_title = '${reqBody.task_title}' WHERE task_id = ${task_id}`);
+        response.status(200).send(`Updated task title with ID: ${task_id}`);
     }catch(err){
         next(err);
     }
 }
 
-const updateUserPassword = async (request, response, next)=>{
+const updateTaskDesc = async (request, response, next)=>{
+    const task_id = request.params.id;
+    const reqBody = request.body;
     try{
-        const id = request.params.id;
-        const reqBody = request.body;
-        await client.query(`UPDATE users SET password='${reqBody.password}' WHERE user_id = ${id}`);
-        response.status(200).send(`Password updated for user ID: ${id}`);
+        await client.query(`UPDATE tasks SET task_desc = '${reqBody.task_desc}' WHERE task_id = ${task_id}`);
+        response.status(200).send(`Updated task description with ID: ${task_id}`);
     }catch(err){
         next(err);
     }
 }
 
+const updateTaskStatus = async (request, response, next)=>{
+    const task_id = request.params.id;
+    const reqBody = request.body;
+    try{
+        await client.query(`UPDATE tasks SET isCompleted = ${reqBody.isCompleted} WHERE task_id = ${task_id}`);
+        response.status(200).send(`Updated task status with ID: ${task_id}`);
+    }catch(err){
+        next(err);
+    }
+}
 
 // DELETE
-const deleteUser = async (request, response, next)=>{
+const deleteTask = async (request, response, next)=>{
+    const task_id = request.params.id;
     try{
-        const id = request.params.id;
-        await client.query(`DELETE FROM users WHERE user_id = ${id}`);
-        response.status(200).send(`User deleted with user ID: ${id}`);
+        await client.query(`DELETE FROM tasks WHERE task_id = ${task_id}`);
+        response.status(200).send(`Deleted task with ID: ${task_id}`);
     }catch(err){
         next(err);
     }
@@ -84,4 +103,4 @@ const getAll = async (request, response, next)=>{
     
 }
 
-export {getAll, getTask, getTaskByUserId};
+export {getAll, getTask, getTaskByUserId, createTask, updateTaskDesc, updateTaskTitle, updateTaskStatus, deleteTask};
