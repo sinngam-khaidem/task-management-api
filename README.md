@@ -1,5 +1,5 @@
-# Task Orchestration and Management API
-This is a RESTful API for a task orchestration and management API built using Node.js and Express.js framework, integrated with a PostgresSQL database server for data storage. 
+# Task Management API
+This is a RESTful API for a task management API built using Node.js and Express.js framework, integrated with a PostgresSQL database server for data storage. 
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
